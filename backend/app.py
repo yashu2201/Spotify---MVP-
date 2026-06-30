@@ -98,6 +98,10 @@ def recommend_music(req: RecommendRequest):
         print(f"Recommend API Error: {e}")
         raise HTTPException(status_code=502, detail="Couldn't process recommendations. Please try again.")
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Spotify Music Buddy API! The backend is running successfully."}
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
