@@ -8,10 +8,10 @@ from openai import OpenAI
 
 app = FastAPI(title="Spotify Music Buddy API")
 
-# Allow requests from the Next.js frontend (Vercel)
+frontend_url = os.environ.get("FRONTEND_URL", "https://spotify-mvp-wheat.vercel.app")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to the Vercel domain
+    allow_origins=[frontend_url, "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
