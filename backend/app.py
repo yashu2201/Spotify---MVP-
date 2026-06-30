@@ -17,7 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "dummy_key"))
+client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY", "dummy_key"),
+    base_url="https://api.groq.com/openai/v1"
+)
 
 SYSTEM_PROMPT = """
 You are Music Buddy, an AI music discovery assistant. Your job is to recommend
@@ -72,7 +75,7 @@ def recommend_music(req: RecommendRequest):
 
     try:
         completion = client.chat.completions.create(
-            model=os.environ.get("LLM_MODEL", "gpt-4o-mini"),
+            model=os.environ.get("LLM_MODEL", "llama-3.1-8b-instant"),
             messages=messages,
             response_format={"type": "json_object"},
             temperature=0.7,
