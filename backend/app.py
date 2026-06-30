@@ -66,10 +66,10 @@ class RecommendRequest(BaseModel):
 def recommend_music(req: RecommendRequest):
     start = time.time()
     try:
-        model_name = os.environ.get("LLM_MODEL", "gemini-1.5-flash")
+        model_name = os.environ.get("LLM_MODEL", "gemini-2.5-flash")
         # If the user still has an old Groq/OpenAI model in their Render Env Vars, ignore it
-        if "llama" in model_name.lower() or "gpt" in model_name.lower() or "mixtral" in model_name.lower():
-            model_name = "gemini-1.5-flash"
+        if "llama" in model_name.lower() or "gpt" in model_name.lower() or "mixtral" in model_name.lower() or "1.5" in model_name.lower():
+            model_name = "gemini-2.5-flash"
             
         model = genai.GenerativeModel(
             model_name=model_name,
