@@ -17,8 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY") or "dummy_key"
 client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY", "dummy_key"),
+    api_key=api_key,
     base_url="https://api.groq.com/openai/v1"
 )
 
