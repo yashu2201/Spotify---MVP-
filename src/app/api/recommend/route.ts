@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     const data: RecommendResponse = await response.json();
     return Response.json(data);
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Recommend API Proxy Error:", error);
     return Response.json({ error: "An unexpected error occurred while connecting to the backend." }, { status: 500 });
   }

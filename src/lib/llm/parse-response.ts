@@ -19,22 +19,24 @@ export function parseLlmResponse(raw: string): LlmResponse {
     }
     
     return result.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof LlmParseError) {
       throw error;
     }
-    throw new LlmParseError(`JSON Parse Error: ${error.message}`, raw);
+    const msg = error instanceof Error ? error.message : String(error);
+    throw new LlmParseError(`JSON Parse Error: ${msg}`, raw);
   }
 }
 
 export async function parseWithRetry(
   messages: { role: "system" | "user" | "assistant"; content: string }[],
   raw: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   completeChatFn: (msgs: any[]) => Promise<string>
 ): Promise<LlmResponse> {
   try {
     return parseLlmResponse(raw);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof LlmParseError) {
       // Retry once
       const retryMessages = [

@@ -17,7 +17,7 @@ export function ResultsPanel({ recommendations, assistantSummary, isLoading }: R
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col gap-6 mt-8">
       {!isLoading && assistantSummary && (
-        <p className="text-zinc-400 italic text-center px-4">"{assistantSummary}"</p>
+        <p className="text-zinc-400 italic text-center px-4">&quot;{assistantSummary}&quot;</p>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

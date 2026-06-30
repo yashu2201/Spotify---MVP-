@@ -10,6 +10,7 @@ interface ChatInputProps {
 
 const SpeechRecognitionAPI =
   typeof window !== "undefined"
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     : null;
 
@@ -17,6 +18,7 @@ export function ChatInput({ onSubmit, isLoading, placeholder }: ChatInputProps) 
   const [message, setMessage] = useState("");
   const [isListening, setIsListening] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
 
   // Auto-resize textarea
@@ -52,6 +54,7 @@ export function ChatInput({ onSubmit, isLoading, placeholder }: ChatInputProps) 
 
     recognition.onstart = () => setIsListening(true);
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onresult = (event: any) => {
       let interimTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -65,6 +68,7 @@ export function ChatInput({ onSubmit, isLoading, placeholder }: ChatInputProps) 
       setMessage(finalTranscript + interimTranscript);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onerror = (e: any) => {
       if (e.error === "no-speech") {
         console.warn("No speech detected.");

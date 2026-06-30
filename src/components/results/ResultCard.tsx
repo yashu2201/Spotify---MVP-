@@ -5,14 +5,6 @@ interface ResultCardProps {
   recommendation: EnrichedRecommendation;
 }
 
-function stringToColorHash(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return hash;
-}
-
 export function ResultCard({ recommendation }: ResultCardProps) {
   return (
     <article 
@@ -23,6 +15,7 @@ export function ResultCard({ recommendation }: ResultCardProps) {
         <div 
           className="w-full aspect-square rounded-lg flex-shrink-0 relative overflow-hidden bg-zinc-800"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src={`https://picsum.photos/seed/${encodeURIComponent(recommendation.track + recommendation.artist)}/400/400`} 
             alt={`Album art for ${recommendation.track}`}

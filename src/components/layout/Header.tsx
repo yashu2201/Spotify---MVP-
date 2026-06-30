@@ -4,10 +4,10 @@ export function Header() {
   return (
     <header className="flex justify-between items-center py-8">
       <h2 className="text-zinc-200 text-lg font-medium">
-        Tell me what you're in the mood for
+        Tell me what you&apos;re in the mood for
       </h2>
       <div className="flex items-center gap-6 text-zinc-300">
-        <button aria-label="Search" className="hover:text-white transition-colors">
+        <button className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
           <SearchIcon />
         </button>
         <button aria-label="Profile" className="hover:text-white transition-colors">
