@@ -106,6 +106,16 @@ def recommend_music(req: RecommendRequest):
 def read_root():
     return {"message": "Welcome to the Spotify Music Buddy API! The backend is running successfully."}
 
+@app.get("/debug-key")
+def debug_key():
+    key = (os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY") or "dummy_key").strip()
+    safe_preview = key[:4] + "***" + key[-4:] if len(key) > 8 else key
+    return {
+        "key_preview": safe_preview,
+        "key_length": len(key),
+        "is_valid_format": key.startswith("gsk_")
+    }
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
