@@ -99,7 +99,7 @@ def recommend_music(req: RecommendRequest):
         }
     except Exception as e:
         print(f"Recommend API Error: {e}")
-        raise HTTPException(status_code=502, detail="Couldn't process recommendations. Please try again.")
+        raise HTTPException(status_code=502, detail=f"Error details: {str(e)}")
 
 @app.get("/")
 def read_root():
