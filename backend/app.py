@@ -4,7 +4,7 @@ import time
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from openai import OpenAI
+import google.generativeai as genai
 
 app = FastAPI(title="Spotify Music Buddy API")
 
@@ -17,11 +17,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-api_key = (os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY") or "dummy_key").strip()
-client = OpenAI(
-    api_key=api_key,
-    base_url="https://api.groq.com/openai/v1"
-)
+api_key = (os.environ.get("GEMINI_API_KEY") or os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY") or "dummy_key").strip()
+genai.configure(api_key=api_key)
 
 SYSTEM_PROMPT = """
 You are Music Buddy, an AI music discovery assistant. Your job is to recommend
@@ -68,23 +65,17 @@ class RecommendRequest(BaseModel):
 @app.post("/recommend")
 def recommend_music(req: RecommendRequest):
     start = time.time()
-    
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": req.message}
-    ]
-
     try:
-        completion = client.chat.completions.create(
-            model=os.environ.get("LLM_MODEL", "llama-3.1-8b-instant"),
-            messages=messages,
-            response_format={"type": "json_object"},
-            temperature=0.7,
-            max_tokens=2000,
-            timeout=30.0
+        model = genai.GenerativeModel(
+            model_name=os.environ.get("LLM_MODEL", "gemini-1.5-flash"),
+            system_instruction=SYSTEM_PROMPT
+        )
+        response = model.generate_content(
+            req.message,
+            generation_config={"response_mime_type": "application/json", "temperature": 0.7}
         )
         
-        raw_content = completion.choices[0].message.content
+        raw_content = response.text
         parsed = json.loads(raw_content)
         
         latency_ms = int((time.time() - start) * 1000)
@@ -108,12 +99,12 @@ def read_root():
 
 @app.get("/debug-key")
 def debug_key():
-    key = (os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY") or "dummy_key").strip()
+    key = (os.environ.get("GEMINI_API_KEY") or os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY") or "dummy_key").strip()
     safe_preview = key[:4] + "***" + key[-4:] if len(key) > 8 else key
     return {
         "key_preview": safe_preview,
         "key_length": len(key),
-        "is_valid_format": key.startswith("gsk_")
+        "is_valid_format": key.startswith("AIza")
     }
 
 @app.get("/health")
