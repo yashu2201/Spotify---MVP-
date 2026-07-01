@@ -35,5 +35,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
+# python (backend)
+__pycache__/
+*.pyc
+/backend/.venv
+/backend/venv
+
+# stray uploaded asset (use public/spotify-logo.jpg instead)
+/spotify-social-media-icon-design-template-vector-png_127005.jpg
+
 # vercel
 .vercel

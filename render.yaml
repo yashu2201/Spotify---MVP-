@@ -8,7 +8,10 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
-      - key: OPENAI_API_KEY
-        sync: false # User must set this manually in the dashboard
+      - key: GEMINI_API_KEY
+        sync: false # Set manually in the Render dashboard
       - key: LLM_MODEL
-        value: gpt-4o-mini
+        value: gemini-2.5-flash
+      - key: FRONTEND_URL
+        sync: false # e.g. https://your-app.vercel.app
+    # Album art + verification use the free iTunes Search API — no keys needed.
